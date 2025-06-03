@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Générateur de mot de passe</title>
+  <style>
+    body { font-family: sans-serif; padding: 2em; background: #f5f5f5; text-align: center; }
+    .box { background: white; padding: 2em; border-radius: 10px; width: 300px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    input[type="number"] { width: 100%; }
+    button { padding: 0.5em 1em; margin-top: 1em; }
+    #result { margin-top: 1em; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2> Générateur de mot de passe</h2>
+    <label>Longueur :</label>
+    <input type="number" id="length" min="8" max="64" value="12"><br><br>
+    <label><input type="checkbox" id="lowercase" checked> Minuscules</label><br>
+    <label><input type="checkbox" id="uppercase" checked> Majuscules</label><br>
+    <label><input type="checkbox" id="numbers" checked> Chiffres</label><br>
+    <label><input type="checkbox" id="symbols"> Symboles</label><br>
+    <button onclick="generatePassword()">Générer</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function generatePassword() {
+      const length = parseInt(document.getElementById("length").value);
+      const includeLower = document.getElementById("lowercase").checked;
+      const includeUpper = document.getElementById("uppercase").checked;
+      const includeNumbers = document.getElementById("numbers").checked;
+      const includeSymbols = document.getElementById("symbols").checked;
+    
+      const lowerChars = "abcdefghijklmnopqrstuvwxyz";
+      const upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      const numberChars = "0123456789";
+      const symbolChars = "!@#$%^&*()_+[]{}|;:,.<>?";
+    
+      let allChars = "";
+      if (includeLower) allChars += lowerChars;
+      if (includeUpper) allChars += upperChars;
+      if (includeNumbers) allChars += numberChars;
+      if (includeSymbols) allChars += symbolChars;
+    
+      if (allChars === "") {
+        document.getElementById("result").textContent = "Veuillez sélectionner au moins une option.";
+        return;
+      }
+    
+      let password = "";
+      for (let i = 0; i < length; i++) {
+        const index = Math.floor(Math.random() * allChars.length);
+        password += allChars[index];
+      }
+    
+      document.getElementById("result").textContent = password;
+    }
+    </script>
